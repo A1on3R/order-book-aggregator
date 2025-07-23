@@ -19,7 +19,7 @@ def test_cli_outputs_expected_result(mock_kraken, mock_gemini, mock_coinbase):
 
     # Call the CLI as a subprocess
     result = subprocess.run(
-        [sys.executable, "cli.py", "--quantity", "5"],
+        [sys.executable, "-m", "aggregator.cli", "--quantity", "5"],
         capture_output=True,
         text=True
     )
@@ -43,7 +43,7 @@ def test_cli_calls_each_fetcher(mock_kraken, mock_gemini, mock_coinbase):
     mock_kraken.return_value = fake_book
 
     import sys
-    sys.argv = ["cli.py", "--quantity", "5"]
+    sys.argv = ["aggregator.cli", "--quantity", "5"]
 
     cli.main()
 
