@@ -1,5 +1,6 @@
 from aggregator.fetchers import fetch_coinbase_book
 from aggregator.fetchers import fetch_gemini_book
+from aggregator.fetchers import fetch_kraken_book
 from unittest.mock import patch
 
 @patch("aggregator.fetchers.requests.get")
@@ -64,3 +65,29 @@ def test_fetch_gemini_book_with_bad_data(mock_get):
     book = fetch_gemini_book()
     assert book["bids"] == []
     assert book["asks"] == [{"price": 30100.0, "quantity": 2.4}]
+
+@patch("aggregator.fetchers.requests.get")
+def test_fetch_kraken_book_valid(mock_get):
+    mock_get.return_value.json.return_value = {
+        "error": [],
+        "result": {
+            "XXBTZUSD": {
+                "bids": [["30000.00", "0.9", 1234567890]],
+                "asks": [["30100.00", "1.5", 1234567891]]
+            }
+        }
+    }
+
+    book = fetch_kraken_book()
+    assert book["bids"] == [{"price": 30000.0, "quantity": 0.9}]
+    assert book["asks"] == [{"price": 30100.0, "quantity": 1.5}]
+
+@patch("aggregator.fetchers.requests.get")
+def test_fetch_kraken_book_with_error(mock_get):
+    mock_get.return_value.json.return_value = {
+        "error": ["Some error"],
+        "result": {}
+    }
+
+    book = fetch_kraken_book()
+    assert book == {"bids": [], "asks": []}
