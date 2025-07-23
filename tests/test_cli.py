@@ -1,7 +1,7 @@
 import subprocess
 import sys
 from unittest.mock import patch
-import cli
+import aggregator.cli as cli
 
 # We'll run cli.py as a subprocess and mock fetchers inline
 @patch("aggregator.fetchers.fetch_coinbase_book")

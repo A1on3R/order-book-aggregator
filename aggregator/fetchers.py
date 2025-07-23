@@ -15,7 +15,7 @@ def fetch_coinbase_book():
             except (IndexError, ValueError, TypeError):
                 continue  # skip bad entry
         return parsed
-    print("getting coinbase...")
+    print("fetching coinbase book...")
     return {
         "bids": parse(data.get("bids", [])),
         "asks": parse(data.get("asks", []))
@@ -36,7 +36,7 @@ def fetch_gemini_book():
             except (KeyError, ValueError, TypeError):
                 continue
         return parsed
-    print("getting gemeni...")
+    print("fetching gemeni book...")
     return {
         "bids": parse(data.get("bids", [])),
         "asks": parse(data.get("asks", []))
@@ -44,7 +44,7 @@ def fetch_gemini_book():
 
 
 def fetch_kraken_book():
-    print("getting kraken...")
+    print("fetching kraken book...")
     url = "https://api.kraken.com/0/public/Depth?pair=XBTUSD"
     resp = requests.get(url)
     data = resp.json()
