@@ -13,8 +13,8 @@ def test_fetch_coinbase_book(mock_get):
 
     book = fetch_coinbase_book()
     
-    assert book["bids"] == [{"price": 30000.0, "quantity": 1.5}]
-    assert book["asks"] == [{"price": 30100.0, "quantity": 2.25}]
+    assert book["bids"] == [{"price": 30000.0, "quantity": 1.5, "source": "Coinbase"}]
+    assert book["asks"] == [{"price": 30100.0, "quantity": 2.25, "source": "Coinbase"}]
 
 @patch("aggregator.fetchers.requests.get")
 def test_fetch_coinbase_book_missing_fields(mock_get):
@@ -38,8 +38,8 @@ def test_fetch_coinbase_book_mixed_valid_and_invalid(mock_get):
         "asks": [["30100.00", "2.25", "1"], ["30101", "bad_quantity", "1"]]
     }
     book = fetch_coinbase_book()
-    assert book["bids"] == [{"price": 30000.0, "quantity": 1.5}]
-    assert book["asks"] == [{"price": 30100.0, "quantity": 2.25}]
+    assert book["bids"] == [{"price": 30000.0, "quantity": 1.5, "source": "Coinbase"}]
+    assert book["asks"] == [{"price": 30100.0, "quantity": 2.25, "source": "Coinbase"}]
 
 
     from aggregator.fetchers import fetch_gemini_book
@@ -52,8 +52,8 @@ def test_fetch_gemini_book_valid(mock_get):
     }
 
     book = fetch_gemini_book()
-    assert book["bids"] == [{"price": 30000.0, "quantity": 1.2}]
-    assert book["asks"] == [{"price": 30100.0, "quantity": 2.4}]
+    assert book["bids"] == [{"price": 30000.0, "quantity": 1.2, "source": "Gemini"}]
+    assert book["asks"] == [{"price": 30100.0, "quantity": 2.4, "source": "Gemini"}]
 
 @patch("aggregator.fetchers.requests.get")
 def test_fetch_gemini_book_with_bad_data(mock_get):
@@ -64,7 +64,7 @@ def test_fetch_gemini_book_with_bad_data(mock_get):
 
     book = fetch_gemini_book()
     assert book["bids"] == []
-    assert book["asks"] == [{"price": 30100.0, "quantity": 2.4}]
+    assert book["asks"] == [{"price": 30100.0, "quantity": 2.4, "source": "Gemini"}]
 
 @patch("aggregator.fetchers.requests.get")
 def test_fetch_kraken_book_valid(mock_get):
@@ -79,8 +79,8 @@ def test_fetch_kraken_book_valid(mock_get):
     }
 
     book = fetch_kraken_book()
-    assert book["bids"] == [{"price": 30000.0, "quantity": 0.9}]
-    assert book["asks"] == [{"price": 30100.0, "quantity": 1.5}]
+    assert book["bids"] == [{"price": 30000.0, "quantity": 0.9, "source": "Kraken"}]
+    assert book["asks"] == [{"price": 30100.0, "quantity": 1.5, "source": "Kraken"}]
 
 @patch("aggregator.fetchers.requests.get")
 def test_fetch_kraken_book_with_error(mock_get):

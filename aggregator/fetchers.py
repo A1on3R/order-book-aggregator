@@ -1,5 +1,7 @@
 import requests
 
+
+
 def fetch_coinbase_book():
     url = "https://api.exchange.coinbase.com/products/BTC-USD/book?level=2"
     resp = requests.get(url)
@@ -11,7 +13,7 @@ def fetch_coinbase_book():
             try:
                 price = float(entry[0])
                 size = float(entry[1])
-                parsed.append({"price": price, "quantity": size})
+                parsed.append({"price": price, "quantity": size, "source": "Coinbase"})
             except (IndexError, ValueError, TypeError):
                 continue  # skip bad entry
         return parsed
@@ -25,6 +27,7 @@ def fetch_gemini_book():
     url = "https://api.gemini.com/v1/book/BTCUSD"
     resp = requests.get(url)
     data = resp.json()
+    print(data)
 
     def parse(entries):
         parsed = []
@@ -32,7 +35,7 @@ def fetch_gemini_book():
             try:
                 price = float(entry["price"])
                 size = float(entry["amount"])
-                parsed.append({"price": price, "quantity": size})
+                parsed.append({"price": price, "quantity": size, "source": "Gemini"})
             except (KeyError, ValueError, TypeError):
                 continue
         return parsed
@@ -49,6 +52,8 @@ def fetch_kraken_book():
     resp = requests.get(url)
     data = resp.json()
 
+  
+
     # Error handling
     if data.get("error"):
         return {"bids": [], "asks": []}
@@ -61,7 +66,7 @@ def fetch_kraken_book():
             try:
                 price = float(entry[0])
                 size = float(entry[1])
-                parsed.append({"price": price, "quantity": size})
+                parsed.append({"price": price, "quantity": size, "source": "Kraken"})
             except (IndexError, ValueError, TypeError):
                 continue
         return parsed
