@@ -27,7 +27,6 @@ def fetch_gemini_book():
     url = "https://api.gemini.com/v1/book/BTCUSD"
     resp = requests.get(url)
     data = resp.json()
-    print(data)
 
     def parse(entries):
         parsed = []
