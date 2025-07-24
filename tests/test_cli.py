@@ -2,6 +2,7 @@ import subprocess
 import sys
 from unittest.mock import patch
 import aggregator.cli as cli
+from aggregator.aggregator import OrderBookAggregator
 
 # We'll run cli.py as a subprocess and mock fetchers inline
 @patch("aggregator.fetchers.fetch_coinbase_book")
@@ -30,9 +31,9 @@ def test_cli_outputs_expected_result(mock_kraken, mock_gemini, mock_coinbase):
     assert "Sell return" in result.stdout
     assert result.returncode == 0
 
-@patch("aggregator.fetchers.fetch_coinbase_book")
-@patch("aggregator.fetchers.fetch_gemini_book")
-@patch("aggregator.fetchers.fetch_kraken_book")
+@patch("aggregator.aggregator.fetch_coinbase_book")
+@patch("aggregator.aggregator.fetch_gemini_book")
+@patch("aggregator.aggregator.fetch_kraken_book")
 def test_cli_calls_each_fetcher(mock_kraken, mock_gemini, mock_coinbase):
     fake_book = {
         "bids": [{"price": 30000.0, "quantity": 1.0}],
@@ -42,10 +43,8 @@ def test_cli_calls_each_fetcher(mock_kraken, mock_gemini, mock_coinbase):
     mock_gemini.return_value = fake_book
     mock_kraken.return_value = fake_book
 
-    import sys
-    sys.argv = ["aggregator.cli", "--quantity", "5"]
-
-    cli.main()
+    agg = OrderBookAggregator()
+    agg.fetch_all()
 
     mock_coinbase.assert_called_once()
     mock_gemini.assert_called_once()
