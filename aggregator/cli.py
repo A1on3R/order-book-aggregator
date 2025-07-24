@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import aggregator.fetchers as fetchers
-from aggregator.merger import merge_books
-from aggregator.calculator import get_price_for_quantity
 from aggregator.aggregator import OrderBookAggregator
 
 def main():

@@ -1,7 +1,6 @@
 import subprocess
 import sys
 from unittest.mock import patch
-import aggregator.cli as cli
 from aggregator.aggregator import OrderBookAggregator
 
 # We'll run cli.py as a subprocess and mock fetchers inline
