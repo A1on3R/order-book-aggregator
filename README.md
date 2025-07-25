@@ -1,5 +1,7 @@
 # Order Book Aggregator CLI
 
+*(Made public so anyone reviewing should be able to clone)
+
 A Python command-line tool that fetches live order books for BTC/USD from multiple exchanges (Coinbase, Gemini, Kraken), aggregates the data, and calculates the cost or return for buying or selling a specific quantity of BTC.
 
 ---
