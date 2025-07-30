@@ -12,7 +12,5 @@ setup(
             'orderbook=aggregator.cli:main',
         ],
     },
-    install_requires=[
-        "requests"
-    ],
+   
 )
